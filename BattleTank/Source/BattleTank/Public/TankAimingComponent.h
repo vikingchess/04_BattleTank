@@ -15,6 +15,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+	void setBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 protected:
 	// Called when the game starts
@@ -26,4 +27,6 @@ public:
 
 	void AimAt(FVector OutHitLocation);
 	
+private:
+	UStaticMeshComponent* Barrel = nullptr;
 };
