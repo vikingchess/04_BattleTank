@@ -1,7 +1,7 @@
 // Copyright 2017 David Flom
 
 #include "TankAIController.h"
-
+#include "Tank.h"
 
 void ATankAIController::BeginPlay()
 {
