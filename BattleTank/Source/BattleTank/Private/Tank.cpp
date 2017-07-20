@@ -43,3 +43,9 @@ void ATank::AimAt(FVector OutHitLocation)
 
 }
 
+void ATank::Fire()
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f: Projectile fire called"), Time)
+}
+
