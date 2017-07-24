@@ -46,7 +46,7 @@ private:
 		float LaunchSpeed = 4000;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		float ReloadTimeInSeconds = 3;
+		float ReloadTimeInSeconds = 10;
 		// Local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr;
 	double LastFireTime = 0;
