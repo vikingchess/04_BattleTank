@@ -1,9 +1,10 @@
-
+// Copyright 2017 David Flom
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Projectile.h"
 #include "TankAimingComponent.generated.h"
 
 // Enum for aiming status
@@ -19,6 +20,7 @@ Locked
 //Forward Declaration
 class UTankBarrel;
 class UTankTurrent;
+class AProjectile;
 
 // Holds barrel's properties
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -27,23 +29,45 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+	void Fire();
+
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initilize(UTankBarrel* BarrelToSet, UTankTurrent* TurrnetToSet);
 
-	void AimAt(FVector OutHitLocation, float LaunchSpeed);
-
+	void AimAt(FVector OutHitLocation);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 	
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+	bool IsBarrelMoving();
+	virtual void UTankAimingComponent::BeginPlay()override;
+	virtual void TickComponent
+	(
+		float DeltaTime,
+		enum ELevelTick TickType,
+		FActorComponentTickFunction * ThisTickFunction
+	)override;
+
+	void MoveBarrelTowards(FVector AimDirection);
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurrent* Turret = nullptr;
-	void MoveBarrelTowards(FVector AimDirection);
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 4000;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float ReloadTimeInSeconds = 1;
+
+	double LastFireTime = 0;
+
+	FVector AimDirection;
 };
