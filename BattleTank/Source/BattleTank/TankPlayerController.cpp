@@ -1,18 +1,22 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2017 David Flom
 
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
-void ATankPlayerController::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	AimTowardsCrosshair();
-}
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
+}
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AimTowardsCrosshair();
 }
 void ATankPlayerController::AimTowardsCrosshair()
 {

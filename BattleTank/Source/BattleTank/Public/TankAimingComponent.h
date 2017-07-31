@@ -1,4 +1,4 @@
-// Copyright 2017 David Flom
+
 
 #pragma once
 
@@ -36,7 +36,7 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Locked;
 	
 private:
 	// Sets default values for this component's properties
