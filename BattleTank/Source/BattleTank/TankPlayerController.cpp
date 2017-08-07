@@ -1,6 +1,7 @@
 // Copyright 2017 David Flom
 
 #include "TankPlayerController.h"
+#include "Tank.h"
 #include "TankAimingComponent.h"
 
 
@@ -12,11 +13,30 @@ void ATankPlayerController::BeginPlay()
 	if (!ensure(AimingComponent)) { return; }
 	FoundAimingComponent(AimingComponent);
 }
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	}
+}
+
+void ATankPlayerController::OnPossessedTankDeath()
+{
+	StartSpectatingOnly();
+	UE_LOG(LogTemp, Warning, TEXT("Received"))
+}
+
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
 }
+
 void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetPawn()) { return; }

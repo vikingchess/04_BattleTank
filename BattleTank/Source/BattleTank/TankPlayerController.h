@@ -24,6 +24,7 @@ protected:
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime);
+	virtual void SetPawn(APawn* InPawn)override;
 
 	// Start the tank moving the barrel so that a shot would hit where
 	// the crosshair intersects the world
@@ -40,4 +41,7 @@ private:
 
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection)const;
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation)const;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 };
